@@ -1,0 +1,21 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# VS Code
+.vscode/
+
+# Env
+.env
+
+# OS
+.DS_Store
+
+# Data (reproducible)
+data/
+*.csv
+*.parquet
+
+# Model artifacts (reproducible)
+artifacts/
