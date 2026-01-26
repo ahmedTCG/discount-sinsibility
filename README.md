@@ -49,4 +49,4 @@ discount_driven: 0.60 – 1.00
 
 Model performance: ROC-AUC ≈ 0.97
 
-Maintained by Ahmed Elgantiry
+
