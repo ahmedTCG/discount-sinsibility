@@ -3,15 +3,11 @@ config.py
 ---------
 Central configuration for the Discount Sensitivity Pipeline.
 """
-
 # =============================================================================
 # COLUMN DEFINITIONS
 # =============================================================================
-
 ID_COLS = ["externalcustomerkey"]
-
 DATE_COLS = ["as_of_date", "first_order_date", "last_order_date"]
-
 LEAKAGE_COLS = [
     "discount_abs_lifetime_eur",
     "discount_rate_lifetime",
@@ -20,47 +16,38 @@ LEAKAGE_COLS = [
     "avg_discount_per_order",
     "max_discount_single_order",
 ]
-
 DROP_COLS = ["gender", "shops_included", "registration_flag"]
-
 WINDOW_TOKENS = ["_15d", "_30d", "_3m", "_6m", "_12m"]
-
 # =============================================================================
-# MODEL PARAMETERS
+# MODEL PARAMETERS (OPTIMIZED)
 # =============================================================================
-
 COUNTRY_MIN_SHARE = 0.01
-
 TEST_SIZE = 0.2
 RANDOM_SEED = 42
-
 LGBM_PARAMS = {
     "objective": "binary",
     "metric": "auc",
-    "learning_rate": 0.05,
-    "num_leaves": 64,
+    "learning_rate": 0.02,
+    "num_leaves": 256,
     "max_depth": -1,
-    "min_data_in_leaf": 200,
-    "feature_fraction": 0.8,
-    "bagging_fraction": 0.8,
+    "min_data_in_leaf": 50,
+    "feature_fraction": 0.6,
+    "bagging_fraction": 0.6,
     "bagging_freq": 1,
+    "lambda_l1": 0.1,
+    "lambda_l2": 0.1,
     "verbosity": -1,
 }
-
-NUM_BOOST_ROUND = 300
-EARLY_STOPPING_ROUNDS = 30
-
+NUM_BOOST_ROUND = 10000
+EARLY_STOPPING_ROUNDS = 300
 # =============================================================================
-# SEGMENTATION THRESHOLDS
+# SEGMENTATION THRESHOLDS (UPDATED)
 # =============================================================================
-
-SEGMENT_THRESHOLDS = [0.0, 0.2, 0.6, 1.0]
+SEGMENT_THRESHOLDS = [0.0, 0.2, 0.5, 1.0]
 SEGMENT_LABELS = ["full_price", "conditional", "discount_driven"]
-
 # =============================================================================
 # FILE PATHS
 # =============================================================================
-
 DEFAULT_PATHS = {
     "data_clean": "data/df_model_clean.parquet",
     "metadata": "artifacts/metadata.json",
@@ -70,10 +57,8 @@ DEFAULT_PATHS = {
     "scores": "data/scores.csv",
     "scores_bucketized": "data/scores_bucketized.csv",
 }
-
 # =============================================================================
 # TARGET DEFINITION
 # =============================================================================
-
 TARGET_COLUMN = "y_discount_sensitive"
 TARGET_SOURCE_COLS = ["share_of_orders_with_discount", "discount_abs_lifetime_eur"]
