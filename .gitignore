@@ -16,6 +16,7 @@ __pycache__/
 data/
 *.csv
 *.parquet
+*.json
 
 # Model artifacts (reproducible)
 artifacts/
